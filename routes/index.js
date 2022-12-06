@@ -1,29 +1,25 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-// GET home page
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+const cors = require('cors');
+const app = express();
+app.use(cors());
 
 // GET service
-router.get('/hello', function (req, res) {
-  res.send({message: 'Hello World!'});
-});
+router.get('/weather/:city', function (req, res) {
+  let report;
+  let city = req.params.city;
 
-// POST service
-router.post('/', function (req, res) {
-  res.send({status: 'OK!'});
-});
-
-// PUT service
-router.put('/hello', function (req, res) {
-  res.send({message: 'Hello New World!'});
-});
-
-// DELETE service
-router.delete('/hello', function (req, res) {
-  res.send({status: 'Done!'});
+  if (city == 'Taipei') {
+    report = { temperature: "+17 °C", wind: "6 km/h", description: "Sunny" };
+  } else if (city == 'Keelung') {
+    report = { temperature: "+26 °C", wind: "6 km/h", description: "Partly cloudy" };
+  } else if (city == 'Kaohsiung') {
+    report = { temperature: "+24 °C", wind: "6 km/h", description: "Sunny" };
+  } else {
+    report = { temperature: "+7 °C", wind: "6 km/h", description: "Sunny" };
+  }
+  res.send(report);
 });
 
 module.exports = router;
